@@ -15,7 +15,7 @@ Page({
       },
       {
         id: 'c2',
-        name: '粗门小助理',
+        name: '官方小助手',
         digest: '[图片]',
         time: '刚刚',
         unread: 2,
