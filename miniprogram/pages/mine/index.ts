@@ -1,6 +1,6 @@
 import { api } from '../../services/api'
 import { env } from '../../config/env'
-import { mockEnabled, setMockEnabled } from '../../services/mock'
+import { mockEnabled, setMockEnabled } from '../../services/mock/index'
 import { appStore } from '../../stores/app'
 
 Page({

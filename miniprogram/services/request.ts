@@ -1,6 +1,6 @@
 import { env } from '../config/env'
 import { KEYS, get, remove, set } from '../utils/storage'
-import { mockCall, mockEnabled } from './mock'
+import { mockCall, mockEnabled } from './mock/index'
 
 export interface ApiRes<T> {
   code: number
