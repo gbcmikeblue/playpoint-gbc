@@ -11,7 +11,8 @@ Page({
     tickets: [] as any[],
     ticketsLoaded: false,
     ticketsLoading: false,
-    isMockEnv: env.mock,
+    // 只有开发环境暴露切换开关，体验版/正式版锁死数据来源
+    isMockEnv: env.envVersion === 'develop',
     mockOn: mockEnabled(),
     grids: [
       { icon: '🏛️', title: '加入的俱乐部', sub: '历史加入记录' },
