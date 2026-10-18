@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<title>PlayPoint 界面预览</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --brand: #00e676;
+    --brand-strong: #00c853;
+    --brand-weak: #d7f8df;
+    --brand-ghost: #eafbf0;
+    --text-1: #111;
+    --text-2: #666;
+    --text-3: #999;
+    --text-4: #bbb;
+    --line: #f0f0f0;
+    --fill: #f7f7f7;
+  }
+  body.shot {
+    display: block;
+    background: #fff;
+    margin: 0;
+    overflow: hidden;
+    zoom: 2;
+  }
+  body.shot .phone { box-shadow: none; }
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background: #eceff1;
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    color: var(--text-1);
+    -webkit-font-smoothing: antialiased;
+  }
+  .phone {
+    position: relative;
+    width: 375px;
+    height: 812px;
+    background: #fff;
+    overflow: hidden;
+  }
+  /* 状态栏 + 胶囊 */
+  .statusbar {
+    height: 44px;
+    padding: 0 12px 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .capsule {
+    width: 87px;
+    height: 32px;
+    border: 1px solid #e5e5e5;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    font-size: 12px;
+    color: #333;
+  }
+  .nav {
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .nav .back {
+    position: absolute;
+    left: 14px;
+    width: 12px;
+    height: 12px;
+    border-left: 2px solid #111;
+    border-bottom: 2px solid #111;
+    transform: rotate(45deg);
+  }
+  .scroll { position: absolute; top: 88px; bottom: 0; left: 0; right: 0; overflow: hidden; }
+  .scroll.with-tab { bottom: 76px; }
+
+  /* 通用 */
+  .row { display: flex; align-items: center; }
+  .col { display: flex; flex-direction: column; }
+  .flex1 { flex: 1; min-width: 0; }
+  .ell { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .ell2 { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+  .pill { border-radius: 999px; }
+  .btn-primary {
+    height: 44px; line-height: 44px; text-align: center; border-radius: 999px;
+    background: var(--brand); color: #111; font-size: 15px; font-weight: 600;
+  }
+  .btn-dark {
+    height: 44px; line-height: 44px; text-align: center; border-radius: 999px;
+    background: #0d0d0d; color: #fff; font-size: 15px; font-weight: 600;
+  }
+  .btn-ghost {
+    height: 44px; line-height: 44px; text-align: center; border-radius: 999px;
+    background: #fff; border: 1px solid #e5e5e5; font-size: 15px; font-weight: 600;
+  }
+
+  /* tabbar */
+  .tabbar {
+    position: absolute; left: 0; right: 0; bottom: 0; height: 76px;
+    background: #fff; border-top: 1px solid var(--line);
+    display: flex; align-items: flex-start; padding-top: 8px;
+  }
+  .tabbar__item { flex: 1; text-align: center; font-size: 10px; color: var(--text-3); }
+  .tabbar__item .ico { font-size: 19px; display: block; margin-bottom: 2px; color: #bdbdbd; }
+  .tabbar__item.on { color: #111; font-weight: 600; }
+  .tabbar__item.on .ico { color: #111; }
+  .tabbar__fab {
+    width: 48px; height: 48px; margin: 0 auto; border-radius: 50%;
+    background: var(--brand); display: flex; align-items: center; justify-content: center;
+    font-size: 24px; color: #111; transform: translateY(-12px);
+    box-shadow: 0 6px 14px rgba(0,230,118,.45);
+  }
+
+  /* ---------- 首页 ---------- */
+  .home-header { padding: 4px 12px 8px 20px; display: flex; align-items: center; gap: 10px; }
+  .home-city { font-size: 17px; font-weight: 700; display: flex; align-items: center; gap: 4px; }
+  .caret { width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 5px solid #111; }
+  .search {
+    flex: 1; height: 34px; border-radius: 999px; background: var(--fill);
+    display: flex; align-items: center; gap: 6px; padding: 0 12px;
+    font-size: 12px; color: var(--text-3);
+  }
+  .promo { display: flex; gap: 8px; padding: 0 12px; }
+  .promo__big {
+    flex: 1; height: 168px; border-radius: 16px; position: relative; overflow: hidden;
+    background: linear-gradient(150deg, #b9f6ca 0%, #69f0ae 45%, #00e676 100%);
+  }
+  .promo__small {
+    width: 96px; height: 168px; border-radius: 16px; position: relative; overflow: hidden;
+    background: linear-gradient(160deg, #fff59d 0%, #ffd54f 100%);
+  }
+  .promo__mask {
+    position: absolute; left: 12px; bottom: 12px; color: #0b3d22;
+  }
+  .promo__title { font-size: 17px; font-weight: 800; display: block; }
+  .promo__sub { font-size: 11px; font-weight: 600; opacity: .75; }
+  .promo__small .promo__mask { left: 8px; bottom: 10px; }
+  .promo__small .promo__title { font-size: 13px; }
+  .artifact { position: absolute; right: 10px; top: 14px; font-size: 34px; opacity: .85; }
+
+  .cats { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 12px 0; }
+  .cat {
+    height: 30px; line-height: 30px; padding: 0 12px; border-radius: 999px;
+    background: var(--fill); font-size: 12px; color: #333;
+  }
+  .cat.on { background: #111; color: #fff; font-weight: 600; }
+  .guide { display: flex; align-items: center; padding: 12px 12px 0; }
+  .guide__ip { width: 28px; height: 28px; border-radius: 50%; background: var(--brand-ghost); display: flex; align-items: center; justify-content: center; font-size: 15px; }
+  .guide__text { margin-left: 8px; font-size: 12px; color: #222; }
+  .guide__acts { margin-left: auto; display: flex; gap: 10px; font-size: 11px; color: var(--text-2); }
+
+  .ad {
+    margin: 10px 12px 0; height: 78px; border-radius: 12px; background: #101010;
+    display: flex; align-items: center; padding: 0 12px; position: relative; overflow: hidden;
+  }
+  .ad__brand { font-size: 10px; color: #9e9e9e; }
+  .ad__title { font-size: 15px; font-weight: 700; color: #fff; margin-top: 2px; }
+  .ad__cta { position: absolute; right: 10px; bottom: 8px; font-size: 10px; color: var(--brand); }
+
+  .cards { padding: 10px 12px 0; }
+  .card { display: flex; padding: 8px 0 12px; border-bottom: 1px solid var(--line); }
+  .cover {
+    width: 112px; height: 88px; border-radius: 10px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 26px;
+  }
+  .c1 { background: linear-gradient(135deg, #d7f8df, #9be7b8); }
+  .c2 { background: linear-gradient(135deg, #ffe0b2, #ffb74d); }
+  .c3 { background: linear-gradient(135deg, #bbdefb, #64b5f6); }
+  .c4 { background: linear-gradient(135deg, #e1bee7, #ba68c8); }
+  .c5 { background: linear-gradient(135deg, #ffe082, #ffca28); }
+  .c6 { background: linear-gradient(135deg, #b2dfdb, #4db6ac); }
+  .card__body { margin-left: 10px; flex: 1; min-width: 0; }
+  .card__date { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text-2); }
+  .card__today { background: var(--brand-weak); color: #0a7a3f; border-radius: 4px; padding: 0 4px; font-size: 10px; }
+  .card__title { margin-top: 4px; font-size: 14px; font-weight: 600; line-height: 1.35; }
+  .card__loc { margin-top: 4px; font-size: 11px; color: var(--text-3); }
+  .card__price { margin-top: 4px; font-size: 13px; font-weight: 700; }
+
+  /* ---------- 城市选择 ---------- */
+  .block { padding: 10px 16px 0; }
+  .block__title { font-size: 11px; color: var(--text-3); }
+  .located { margin-top: 8px; display: flex; align-items: baseline; gap: 8px; }
+  .located__name { font-size: 17px; font-weight: 700; }
+  .located__hint { font-size: 10px; color: var(--brand-strong); }
+  .hot { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .hot__item { height: 34px; line-height: 34px; padding: 0 16px; border-radius: 999px; background: var(--fill); font-size: 13px; }
+  .hot__item.on { background: var(--brand-weak); color: #0a7a3f; font-weight: 600; }
+  .group { padding: 0 16px; }
+  .group__initial { height: 30px; line-height: 30px; font-size: 11px; color: var(--text-3); background: #fff; }
+  .group__item { height: 46px; line-height: 46px; font-size: 14px; border-bottom: 1px solid var(--line); }
+  .idx { position: absolute; right: 4px; top: 46%; display: flex; flex-direction: column; gap: 2px; }
+  .idx span { width: 18px; text-align: center; font-size: 10px; color: var(--text-3); }
+  .idx span.on { color: var(--brand-strong); font-weight: 700; }
+
+  /* ---------- 活动详情 ---------- */
+  .d-cover { height: 240px; background: linear-gradient(140deg, #ffcc80 0%, #ff8a65 55%, #f4511e 100%); position: relative; }
+  .d-cover__tag { position: absolute; left: 12px; bottom: 12px; background: rgba(0,0,0,.42); color: #fff; font-size: 10px; padding: 3px 8px; border-radius: 6px; }
+  .d-body { padding: 14px 16px 0; }
+  .d-title { font-size: 19px; font-weight: 800; line-height: 1.35; }
+  .tags { display: flex; gap: 8px; margin-top: 8px; }
+  .tag { height: 20px; line-height: 20px; padding: 0 8px; border-radius: 999px; background: var(--brand-ghost); color: #0a7a3f; font-size: 11px; }
+  .meta { margin-top: 12px; border-top: 1px solid var(--line); }
+  .meta__row { display: flex; gap: 8px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 13px; color: var(--text-2); align-items: flex-start; }
+  .meta__strong { color: #111; font-weight: 600; }
+  .meta__sub { color: var(--text-3); font-size: 11px; margin-top: 2px; }
+  .session { display: flex; justify-content: space-between; height: 32px; line-height: 32px; padding: 0 10px; border-radius: 10px; background: var(--fill); font-size: 12px; margin-bottom: 6px; }
+  .session.on { background: var(--brand-weak); border: 1px solid var(--brand); }
+  .session span:last-child { color: var(--text-3); font-size: 11px; }
+  .section { margin-top: 18px; }
+  .section__title { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+  .hl { display: flex; gap: 8px; padding: 8px 0; }
+  .hl__title { font-size: 13px; font-weight: 600; }
+  .hl__content { font-size: 11px; color: var(--text-2); margin-top: 2px; line-height: 1.5; }
+  .host { display: flex; align-items: center; gap: 10px; }
+  .host__avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #b2dfdb, #4db6ac); }
+  .host__name { font-size: 13px; }
+  .host__follow { height: 26px; line-height: 26px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line); font-size: 11px; color: var(--text-2); }
+  .detail-bar {
+    position: absolute; left: 0; right: 0; bottom: 0; height: 76px; background: #fff;
+    box-shadow: 0 -2px 12px rgba(0,0,0,.05); display: flex; align-items: center; padding: 0 16px; gap: 12px;
+  }
+  .detail-bar__price { font-size: 19px; font-weight: 800; }
+  .detail-bar__label { font-size: 10px; color: var(--text-3); }
+  .detail-bar .btn-primary { flex: 1; }
+
+  /* ---------- 收银台 ---------- */
+  .amount { padding: 30px 0 20px; text-align: center; }
+  .amount__label { font-size: 12px; color: var(--text-3); }
+  .amount__value { font-size: 36px; font-weight: 800; margin-top: 4px; }
+  .amount__value small { font-size: 18px; font-weight: 600; margin-right: 2px; }
+  .amount__tip { font-size: 11px; color: var(--text-3); margin-top: 4px; }
+  .pay-card { margin: 0 16px; padding: 10px; border-radius: 12px; background: #fff; box-shadow: 0 4px 12px rgba(17,17,17,.06); display: flex; gap: 10px; }
+  .pay-card .cover { width: 74px; height: 74px; font-size: 20px; }
+  .pay-card__title { font-size: 14px; font-weight: 600; line-height: 1.4; }
+  .pay-card__row { font-size: 11px; color: var(--text-3); margin-top: 5px; }
+  .rows { margin: 12px 16px 0; padding: 4px 10px; border-radius: 12px; background: #fff; }
+  .rows .r { display: flex; justify-content: space-between; height: 40px; align-items: center; font-size: 12px; border-bottom: 1px solid var(--line); }
+  .rows .r:last-child { border-bottom: none; }
+  .rows .r strong { font-size: 14px; }
+  .hint { margin: 14px 16px 0; font-size: 11px; color: var(--text-3); line-height: 1.6; }
+  .pay-bar { position: absolute; left: 0; right: 0; bottom: 0; height: 76px; background: #fff; box-shadow: 0 -2px 12px rgba(0,0,0,.05); display: flex; align-items: center; padding: 0 16px; gap: 10px; }
+  .pay-bar__cancel { font-size: 13px; color: var(--text-2); }
+  .pay-bar .btn-primary { flex: 1; }
+
+  /* ---------- 票夹 ---------- */
+  .tabs { display: flex; gap: 20px; padding: 0 16px; height: 40px; align-items: center; border-bottom: 1px solid var(--line); }
+  .tabs div { font-size: 14px; color: var(--text-3); position: relative; height: 40px; line-height: 40px; }
+  .tabs div.on { color: #111; font-weight: 700; }
+  .tabs div.on::after { content: ''; position: absolute; left: 50%; margin-left: -10px; bottom: 6px; width: 20px; height: 3px; border-radius: 999px; background: var(--brand); }
+  .tk-list { padding: 10px 16px 0; }
+  .tk { display: flex; padding: 12px; border-radius: 12px; margin-bottom: 12px; background: linear-gradient(135deg, #e8fbf0 0%, #fff 62%); box-shadow: 0 4px 12px rgba(17,17,17,.06); }
+  .tk__title { font-size: 14px; font-weight: 700; line-height: 1.4; }
+  .tk__row { font-size: 11px; color: var(--text-2); margin-top: 5px; }
+  .tk__btn { display: inline-block; margin-top: 9px; height: 30px; line-height: 30px; padding: 0 14px; border-radius: 999px; background: #0d0d0d; color: #fff; font-size: 12px; }
+  .tk__dash { width: 0; margin: 0 10px; border-left: 1px dashed #d8e8de; }
+  .tk__right { width: 85px; display: flex; flex-direction: column; align-items: center; }
+  .tk__status { font-size: 10px; color: var(--brand-strong); }
+  .tk__seal { width: 66px; height: 66px; margin-top: 5px; border: 2px solid #7fd7b0; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #2f9e6f; }
+  .tk__seal b { font-size: 11px; }
+  .tk__seal i { font-size: 6px; letter-spacing: .5px; font-style: normal; margin-top: 2px; }
+  .tk__more { margin-top: 7px; height: 26px; line-height: 26px; padding: 0 13px; border-radius: 999px; background: var(--brand); font-size: 11px; }
+  .brand { text-align: center; padding: 18px 0 12px; }
+  .brand b { font-size: 15px; display: block; }
+  .brand span { font-size: 10px; color: var(--text-4); }
+
+  /* ---------- 电子票 ---------- */
+  .tk-hero { margin: 12px 16px 0; padding: 16px 14px; border-radius: 12px; background: linear-gradient(135deg, #e8fbf0 0%, #fff 70%); box-shadow: 0 4px 12px rgba(17,17,17,.06); }
+  .tk-hero__status { font-size: 11px; color: var(--brand-strong); font-weight: 600; }
+  .tk-hero__title { font-size: 16px; font-weight: 700; margin-top: 6px; line-height: 1.4; }
+  .tk-hero__row { font-size: 11px; color: var(--text-2); margin-top: 5px; }
+  .qr-card { margin: 12px 16px 0; padding: 20px 0 16px; border-radius: 12px; background: #fff; text-align: center; box-shadow: 0 4px 12px rgba(17,17,17,.06); }
+  .qr { width: 200px; height: 200px; margin: 0 auto; display: grid; grid-template-columns: repeat(29, 1fr); grid-template-rows: repeat(29, 1fr); }
+  .qr i { background: #111; }
+  .qr i.w { background: #fff; }
+  .qr-tip { margin-top: 12px; font-size: 12px; color: var(--text-2); }
+  .qr-code { margin-top: 4px; font-size: 10px; color: var(--text-4); }
+  .notice { margin: 12px 16px 0; padding: 14px; border-radius: 12px; background: #fff; }
+  .notice__title { font-size: 14px; font-weight: 700; margin-bottom: 8px; }
+  .notice__item { display: flex; gap: 6px; padding: 4px 0; font-size: 11px; color: var(--text-2); line-height: 1.6; }
+  .notice__item span { color: var(--text-4); }
+</style>
+</head>
+<body>
+<div class="phone" id="phone"></div>
+
+<script>
+  const q = new URLSearchParams(location.search)
+  const screen = q.get('screen') || 'home'
+  if (q.get('shot')) document.body.classList.add('shot')
+
+  const capsule = '<div class="capsule"><span>···</span><span>⊙</span></div>'
+
+  const tabbar = (on) => `
+    <div class="tabbar">
+      <div class="tabbar__item ${on === 0 ? 'on' : ''}"><span class="ico">${on === 0 ? '◉' : '○'}</span>玩点</div>
+      <div class="tabbar__item ${on === 1 ? 'on' : ''}"><span class="ico">${on === 1 ? '◉' : '○'}</span>打卡</div>
+      <div class="tabbar__item"><div class="tabbar__fab">＋</div></div>
+      <div class="tabbar__item ${on === 2 ? 'on' : ''}"><span class="ico">${on === 2 ? '◉' : '○'}</span>消息</div>
+      <div class="tabbar__item ${on === 3 ? 'on' : ''}"><span class="ico">${on === 3 ? '◉' : '○'}</span>我的</div>
+    </div>`
+
+  const screens = {
+    home: `
+      <div class="statusbar"><span>21:08</span>${capsule}</div>
+      <div class="home-header">
+        <div class="home-city">深圳市 <i class="caret"></i></div>
+        <div class="search">🔍 搜索活动、场地、俱乐部</div>
+      </div>
+      <div class="scroll with-tab">
+        <div class="promo">
+          <div class="promo__big">
+            <div class="artifact">🏙️</div>
+            <div class="promo__mask"><span class="promo__title">城市会玩</span><span class="promo__sub">DAILY 30</span></div>
+          </div>
+          <div class="promo__small">
+            <div class="artifact">🎨</div>
+            <div class="promo__mask"><span class="promo__title">主理人<br/>宇宙</span><span class="promo__sub">VOL.06</span></div>
+          </div>
+        </div>
+        <div class="cats">
+          <div class="cat on">🔥 热门</div><div class="cat">全部</div><div class="cat">🏃 跑步</div>
+          <div class="cat">🥏 飞盘</div><div class="cat">🙈 躲猫猫</div><div class="cat">💃 舞蹈</div>
+          <div class="cat">🎾 网球</div><div class="cat">🧭 自我探索</div><div class="cat">☕ 吃喝松弛</div>
+        </div>
+        <div class="guide">
+          <div class="guide__ip">🏃</div>
+          <div class="guide__text">聊点有意思的 顺便认识有趣的人</div>
+          <div class="guide__acts"><span>⇅ 排序</span><span>⚙ 筛选</span></div>
+        </div>
+        <div class="ad">
+          <div>
+            <div class="ad__brand">品牌联名</div>
+            <div class="ad__title">秋季影像企划</div>
+          </div>
+          <div class="ad__cta">点击查看 ›</div>
+        </div>
+        <div class="cards">
+          <div class="card">
+            <div class="cover c1">🥎</div>
+            <div class="card__body">
+              <div class="card__date"><span>10/18</span><span class="card__today">今天</span><span>18:00</span></div>
+              <div class="card__title ell2">匹克球热身畅打4h｜全天新手友好</div>
+              <div class="card__loc ell">◎ 匹克球体育中心(匹克球)</div>
+              <div class="card__price">免费</div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="cover c2">🎲</div>
+            <div class="card__body">
+              <div class="card__date"><span>10/18</span><span class="card__today">今天</span><span>19:30</span></div>
+              <div class="card__title ell2">已有10人-疗愈游戏局：用游戏思维拥抱生活</div>
+              <div class="card__loc ell">◎ 深圳万象天地</div>
+              <div class="card__price">¥199</div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="cover c3">🏃</div>
+            <div class="card__body">
+              <div class="card__date"><span>10/19</span><span>20:00</span></div>
+              <div class="card__title ell2">城市夜跑 · 沿江10km轻松配速</div>
+              <div class="card__loc ell">◎ 深圳湾公园</div>
+              <div class="card__price">免费</div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="cover c4">🥏</div>
+            <div class="card__body">
+              <div class="card__date"><span>10/20</span><span>16:00</span></div>
+              <div class="card__title ell2">周日飞盘新手专场 · 教练带练2h</div>
+              <div class="card__loc ell">◎ 莲花山公园风筝广场</div>
+              <div class="card__price">¥59</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      ${tabbar(0)}`,
+
+    city: `
+      <div class="statusbar"><span>21:08</span>${capsule}</div>
+      <div class="nav"><i class="back"></i>选择城市</div>
+      <div class="scroll">
+        <div class="block">
+          <div class="block__title">当前城市</div>
+          <div class="located"><span class="located__name">深圳市</span><span class="located__hint">点这里使用</span></div>
+        </div>
+        <div class="block">
+          <div class="block__title">热门城市</div>
+          <div class="hot">
+            <div class="hot__item on">深圳市</div><div class="hot__item">上海市</div>
+            <div class="hot__item">北京市</div><div class="hot__item">广州市</div>
+          </div>
+        </div>
+        <div class="group"><div class="group__initial">A</div><div class="group__item">安阳市</div></div>
+        <div class="group"><div class="group__initial">B</div><div class="group__item">北京市</div></div>
+        <div class="group"><div class="group__initial">G</div><div class="group__item">广州市</div></div>
+        <div class="group"><div class="group__initial">H</div><div class="group__item">杭州市</div></div>
+        <div class="group"><div class="group__initial">S</div><div class="group__item">上海市</div><div class="group__item">深圳市</div></div>
+        <div class="idx"><span>A</span><span>B</span><span>G</span><span>H</span><span class="on">S</span></div>
+      </div>`,
+
+    detail: `
+      <div class="statusbar"><span>21:08</span>${capsule}</div>
+      <div class="nav"><i class="back"></i>活动详情</div>
+      <div class="scroll" style="bottom:76px">
+        <div class="d-cover">
+          <div class="d-cover__tag">已有 10 人报名</div>
+        </div>
+        <div class="d-body">
+          <div class="d-title">已有10人-疗愈游戏局：用游戏思维拥抱生活</div>
+          <div class="tags"><div class="tag">沙龙</div><div class="tag">游戏疗愈</div></div>
+          <div class="meta">
+            <div class="meta__row"><span>🕐</span><div class="flex1"><div class="session on"><span>10月18日 周日 19:30</span><span>10/20</span></div></div></div>
+            <div class="meta__row"><span>📍</span><div class="flex1"><div class="meta__strong">深圳万象天地</div><div class="meta__sub">南山区深南大道 9668 号</div></div><span style="color:#bbb">›</span></div>
+            <div class="meta__row"><span>👥</span><div class="flex1"><div class="meta__strong">10/20 人已报名</div><div class="meta__sub">20人一起</div></div></div>
+          </div>
+          <div class="section">
+            <div class="section__title">活动亮点</div>
+            <div class="hl"><span>💗</span><div><div class="hl__title">用好玩的游戏消除烦恼</div><div class="hl__content">深度链接有趣灵魂</div></div></div>
+            <div class="hl"><span>🎲</span><div><div class="hl__title">趣味游戏，疗愈心灵</div><div class="hl__content">五种疗愈魔法道具，开启别开生面的疗愈之旅</div></div></div>
+            <div class="hl"><span>🌱</span><div><div class="hl__title">深度探索，自我成长</div><div class="hl__content">每场包含至少 10 轮自我探索、5 次温暖解疑</div></div></div>
+          </div>
+          <div class="section">
+            <div class="section__title">主办方</div>
+            <div class="host">
+              <div class="host__avatar"></div>
+              <div class="host__name flex1 ell">凡心向上·游戏疗愈夜</div>
+              <div class="host__follow">关注</div>
+            </div>
+          </div>
+          <div class="section">
+            <div class="section__title">退款说明</div>
+            <div class="hl__content">活动开始前可随时全额退款，超过不支持退款</div>
+          </div>
+        </div>
+      </div>
+      <div class="detail-bar">
+        <div>
+          <div class="detail-bar__price">¥199</div>
+          <div class="detail-bar__label">现场付/在线付</div>
+        </div>
+        <div class="btn-primary">立即报名</div>
+      </div>`,
+
+    cashier: `
+      <div class="statusbar"><span>21:08</span>${capsule}</div>
+      <div class="nav"><i class="back"></i>确认支付</div>
+      <div class="scroll" style="top:88px;bottom:76px">
+        <div class="amount">
+          <div class="amount__label">待支付</div>
+          <div class="amount__value"><small>¥</small>199</div>
+          <div class="amount__tip">支付剩余时间 14:52</div>
+        </div>
+        <div class="pay-card">
+          <div class="cover c2">🎲</div>
+          <div>
+            <div class="pay-card__title ell2">已有10人-疗愈游戏局：用游戏思维拥抱生活</div>
+            <div class="pay-card__row">🕐 10月18日 19:30</div>
+            <div class="pay-card__row">📍 深圳万象天地</div>
+          </div>
+        </div>
+        <div class="rows">
+          <div class="r"><span>订单编号</span><span>PP20261018210836</span></div>
+          <div class="r"><span>商品金额</span><span>¥199</span></div>
+          <div class="r"><span>优惠</span><span>-¥0</span></div>
+          <div class="r"><b>应付</b><strong>¥199</strong></div>
+        </div>
+        <div class="hint">当前为练习项目，接入的是「模拟支付」，不会产生真实扣款。</div>
+      </div>
+      <div class="pay-bar">
+        <div class="pay-bar__cancel">放弃支付</div>
+        <div class="btn-primary">模拟支付</div>
+      </div>`,
+
+    'ticket-list': `
+      <div class="statusbar"><span>21:08</span>${capsule}</div>
+      <div class="nav"><i class="back"></i>票夹</div>
+      <div class="tabs"><div class="on">全部</div><div>待验票</div></div>
+      <div class="scroll" style="top:132px">
+        <div class="tk-list">
+          <div class="tk">
+            <div class="flex1">
+              <div class="tk__title ell2">已有10人-疗愈游戏局：用游戏思维拥抱生活</div>
+              <div class="tk__row">📍 深圳万象天地</div>
+              <div class="tk__row">🕐 周日10.18 19:30</div>
+              <div class="tk__row">💚 未保障</div>
+              <div class="tk__btn">我要验票</div>
+            </div>
+            <div class="tk__dash"></div>
+            <div class="tk__right">
+              <div class="tk__status">待验票</div>
+              <div class="tk__seal"><b>待发车</b><i>PLAYPOINT</i></div>
+              <div class="tk__more">更多</div>
+            </div>
+          </div>
+          <div class="tk">
+            <div class="flex1">
+              <div class="tk__title ell2">匹克球热身畅打4h｜全天新手友好</div>
+              <div class="tk__row">📍 匹克球体育中心</div>
+              <div class="tk__row">🕐 周日10.18 18:00</div>
+              <div class="tk__row">💚 未保障</div>
+              <div class="tk__btn">我要验票</div>
+            </div>
+            <div class="tk__dash"></div>
+            <div class="tk__right">
+              <div class="tk__status">待验票</div>
+              <div class="tk__seal"><b>待发车</b><i>PLAYPOINT</i></div>
+              <div class="tk__more">更多</div>
+            </div>
+          </div>
+          <div class="brand"><b>玩点</b><span>- 玩点，一起去玩 -</span></div>
+        </div>
+      </div>`,
+
+    'ticket-detail': `
+      <div class="statusbar"><span>21:08</span>${capsule}</div>
+      <div class="nav"><i class="back"></i>电子票</div>
+      <div class="scroll">
+        <div class="tk-hero">
+          <div class="tk-hero__status">待验票</div>
+          <div class="tk-hero__title">已有10人-疗愈游戏局：用游戏思维拥抱生活</div>
+          <div class="tk-hero__row">📍 深圳万象天地</div>
+          <div class="tk-hero__row">🕐 周日10.18 19:30</div>
+        </div>
+        <div class="qr-card">
+          <div class="qr" id="qr"></div>
+          <div class="qr-tip">请向工作人员出示二维码验票</div>
+          <div class="qr-code">票号 qr_8f21c7d94a</div>
+        </div>
+        <div class="notice">
+          <div class="notice__title">验票须知</div>
+          <div class="notice__item"><span>1</span><div>请提前到达现场，找到工作人员</div></div>
+          <div class="notice__item"><span>2</span><div>出示此二维码，工作人员扫码完成验票</div></div>
+          <div class="notice__item"><span>3</span><div>扫码完成即确定使用，交易成功，费用会打入商家账户</div></div>
+          <div class="notice__item"><span>4</span><div>为避免造成财产损失，请勿将验票码截屏发给他人</div></div>
+        </div>
+      </div>`
+  }
+
+  const phone = document.getElementById('phone')
+  phone.innerHTML = screens[screen] || screens.home
+
+  // 电子票：用确定性伪随机画一个像二维码的点阵（与小程序里 canvas 实现同款算法）
+  if (screen === 'ticket-detail') {
+    const N = 29
+    let seed = 20261018
+    const rnd = () => {
+      seed = (seed * 1103515245 + 12345) % 2147483648
+      return seed / 2147483648
+    }
+    const m = []
+    for (let y = 0; y < N; y++) {
+      const row = []
+      for (let x = 0; x < N; x++) row.push(rnd() > 0.52)
+      m.push(row)
+    }
+    const finder = (x0, y0) => {
+      for (let y = -1; y <= 7; y++) {
+        for (let x = -1; x <= 7; x++) {
+          const gx = x0 + x, gy = y0 + y
+          if (gx < 0 || gy < 0 || gx >= N || gy >= N) continue
+          const edge = x === 0 || x === 6 || y === 0 || y === 6
+          const core = x >= 2 && x <= 4 && y >= 2 && y <= 4
+          m[gy][gx] = edge || core
+        }
+      }
+    }
+    finder(0, 0); finder(N - 7, 0); finder(0, N - 7)
+    const qr = document.getElementById('qr')
+    for (let y = 0; y < N; y++) {
+      for (let x = 0; x < N; x++) {
+        const cell = document.createElement('i')
+        if (!m[y][x]) cell.className = 'w'
+        qr.appendChild(cell)
+      }
+    }
+  }
+</script>
+</body>
+</html>

@@ -10,5 +10,10 @@
   "devDependencies": {
     "miniprogram-api-typings": "3.12.2",
     "typescript": "5.4.5"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gbcmikeblue/playpoint-gbc.git"
   }
 }
