@@ -13,10 +13,10 @@
       scroll-with-animation
     >
       <view class="block">
-        <view class="block__title">当前定位</view>
-        <view class="located" bindtap="onLocate">
+        <view class="block__title">当前城市</view>
+        <view class="located" bindtap="onUseCurrent">
           <text class="located__name">{{located.name}}</text>
-          <text class="located__hint">点击重新定位</text>
+          <text class="located__hint">点这里使用</text>
         </view>
       </view>
 

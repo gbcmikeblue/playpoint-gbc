@@ -26,12 +26,6 @@
       { "pagePath": "pages/mine/index", "text": "我的" }
     ]
   },
-  "requiredPrivateInfos": ["getFuzzyLocation"],
-  "permission": {
-    "scope.userFuzzyLocation": {
-      "desc": "用于展示附近的活动与挑战赛"
-    }
-  },
   "window": {
     "navigationStyle": "custom",
     "backgroundColor": "#FFFFFF",

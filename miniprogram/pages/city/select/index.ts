@@ -49,20 +49,11 @@ Page({
     this.setData({ current: l, scrollTo: `letter-${l}` })
   },
 
-  onLocate() {
-    wx.getFuzzyLocation({
-      type: 'wgs84',
-      success: () => {
-        const located = this.data.located
-        if (located?.code) {
-          setCity({ code: located.code, name: located.name })
-          wx.navigateBack()
-        }
-      },
-      fail: () => {
-        wx.showToast({ title: '定位未授权，可手动选择', icon: 'none' })
-      },
-    })
+  onUseCurrent() {
+    const located = this.data.located
+    if (!located?.code) return
+    setCity({ code: located.code, name: located.name })
+    wx.navigateBack()
   },
 
   onRetry() {
