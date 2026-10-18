@@ -61,6 +61,8 @@ export class ActivityService {
       coverUrl: a.coverUrl,
       tags: (a.tags as string[]) ?? [],
       refundPolicy: a.refundPolicy,
+      priceCent: a.priceCent,
+      priceText: a.priceCent === 0 ? '免费' : `¥${a.priceCent / 100}`,
       sessions,
       poiName: a.poiName,
       address: a.address,

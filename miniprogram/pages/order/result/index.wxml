@@ -1,0 +1,14 @@
+<view class="page">
+  <nav-bar title="支付结果" back="{{false}}" />
+
+  <view class="wrap" style="padding-top: {{statusBarHeight + 100}}px;">
+    <view class="badge {{success ? 'badge--ok' : 'badge--fail'}}">{{success ? '✓' : '!'}}</view>
+    <view class="title">{{success ? '支付成功' : '支付未完成'}}</view>
+    <view class="sub">{{success ? '票已放进票夹，记得按时到现场' : '订单已关闭，可以重新报名'}}</view>
+
+    <view class="actions">
+      <view class="btn-primary" bindtap="onViewTicket">{{success ? '查看电子票' : '返回票夹'}}</view>
+      <view class="btn-ghost actions__second" bindtap="onHome">回首页继续逛</view>
+    </view>
+  </view>
+</view>

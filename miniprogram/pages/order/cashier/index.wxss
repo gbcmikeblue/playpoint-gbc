@@ -1,0 +1,155 @@
+.page {
+  min-height: 100vh;
+  background: var(--c-fill);
+}
+
+.state {
+  padding-top: 240rpx;
+  text-align: center;
+  color: var(--c-text-3);
+  font-size: 26rpx;
+}
+
+.content {
+  padding: 0 var(--sp-3) 200rpx;
+}
+
+.amount {
+  padding: 56rpx 0 40rpx;
+  text-align: center;
+}
+
+.amount__label {
+  font-size: 24rpx;
+  color: var(--c-text-3);
+}
+
+.amount__value {
+  margin-top: 12rpx;
+  font-size: 72rpx;
+  font-weight: 800;
+  letter-spacing: -1rpx;
+}
+
+.amount__unit {
+  font-size: 36rpx;
+  font-weight: 600;
+  margin-right: 4rpx;
+}
+
+.amount__tip {
+  margin-top: 10rpx;
+  font-size: 23rpx;
+  color: var(--c-text-3);
+}
+
+.card {
+  display: flex;
+  padding: 20rpx;
+  border-radius: var(--r-lg);
+  background: #fff;
+  box-shadow: var(--sh-card);
+}
+
+.card__cover {
+  width: 150rpx;
+  height: 150rpx;
+  border-radius: var(--r-md);
+  background: var(--c-fill);
+}
+
+.card__body {
+  flex: 1;
+  min-width: 0;
+  margin-left: 20rpx;
+}
+
+.card__title {
+  font-size: 28rpx;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.card__row {
+  margin-top: 10rpx;
+  font-size: 22rpx;
+  color: var(--c-text-3);
+}
+
+.rows {
+  margin-top: 24rpx;
+  padding: 8rpx 20rpx;
+  border-radius: var(--r-lg);
+  background: #fff;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80rpx;
+  font-size: 25rpx;
+  border-bottom: 1rpx solid var(--c-line);
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.row__k {
+  color: var(--c-text-2);
+}
+
+.row__v {
+  color: var(--c-text-1);
+}
+
+.row--strong .row__v {
+  font-weight: 700;
+  font-size: 28rpx;
+}
+
+.hint {
+  margin-top: 28rpx;
+  font-size: 22rpx;
+  color: var(--c-text-3);
+  line-height: 1.6;
+}
+
+.bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  height: calc(120rpx + env(safe-area-inset-bottom));
+  padding: 0 var(--sp-3) env(safe-area-inset-bottom);
+  background: #fff;
+  box-shadow: var(--sh-bar);
+}
+
+.bar__cancel {
+  height: 88rpx;
+  line-height: 88rpx;
+  padding: 0 24rpx;
+  font-size: 26rpx;
+  color: var(--c-text-2);
+}
+
+.bar__pay {
+  flex: 1;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  border-radius: var(--r-full);
+  background: var(--c-brand);
+  color: #111;
+  font-size: 30rpx;
+  font-weight: 600;
+}
+
+.bar__pay--disabled {
+  background: #c9c9c9;
+  color: #fff;
+}

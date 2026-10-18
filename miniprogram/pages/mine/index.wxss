@@ -417,3 +417,25 @@
   color: #999;
   margin-top: 2rpx;
 }
+
+.debug {
+  display: flex;
+  align-items: center;
+  margin: 8rpx 24rpx 24rpx;
+  padding: 24rpx;
+  border-radius: 20rpx;
+  background: #eafbf0;
+}
+.debug__left {
+  flex: 1;
+  min-width: 0;
+}
+.debug__title {
+  font-size: 26rpx;
+  font-weight: 600;
+}
+.debug__sub {
+  margin-top: 6rpx;
+  font-size: 21rpx;
+  color: #999;
+}

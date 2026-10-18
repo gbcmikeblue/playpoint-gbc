@@ -4,6 +4,12 @@
     "pages/campaign/list/index",
     "pages/message/index",
     "pages/mine/index",
+    "pages/activity/detail/index",
+    "pages/ticket/list/index",
+    "pages/ticket/detail/index",
+    "pages/order/cashier/index",
+    "pages/order/result/index",
+    "pages/city/select/index",
     "pages/dev/components"
   ],
   "subPackages": [],

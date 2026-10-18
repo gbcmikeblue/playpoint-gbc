@@ -1,9 +1,9 @@
 export const KEYS = {
-  token: 'cm_token',
-  refreshToken: 'cm_refresh',
-  privacyVersion: 'cm_privacy_version',
-  city: 'cm_city',
-  mock: 'cm_mock',
+  token: 'pp_token',
+  refreshToken: 'pp_refresh',
+  privacyVersion: 'pp_privacy_version',
+  city: 'pp_city',
+  mock: 'pp_mock',
 } as const
 
 export function get<T = any>(key: string, fallback: T | null = null): T | null {

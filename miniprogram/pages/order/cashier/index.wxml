@@ -1,0 +1,59 @@
+<view class="page">
+  <nav-bar title="确认支付" />
+
+  <view wx:if="{{!order}}" class="state">加载中…</view>
+
+  <block wx:else>
+    <view class="content" style="padding-top: {{statusBarHeight + 44}}px;">
+      <view class="amount">
+        <view class="amount__label">待支付</view>
+        <view class="amount__value"><text class="amount__unit">¥</text>{{order.payableCent / 100}}</view>
+        <view wx:if="{{order.status === 0}}" class="amount__tip">支付剩余时间 {{countdown}}</view>
+        <view wx:elif="{{order.status === 1}}" class="amount__tip">已支付</view>
+        <view wx:else class="amount__tip">订单已过期</view>
+      </view>
+
+      <view class="card">
+        <image class="card__cover" src="{{order.coverUrl}}" mode="aspectFill" />
+        <view class="card__body">
+          <view class="card__title ellipsis-2">{{order.title}}</view>
+          <view class="card__row" wx:if="{{order.sessionText}}">🕐 {{order.sessionText}}</view>
+          <view class="card__row" wx:if="{{order.poiName}}">📍 {{order.poiName}}</view>
+        </view>
+      </view>
+
+      <view class="rows">
+        <view class="row">
+          <text class="row__k">订单编号</text>
+          <text class="row__v">{{order.orderNo}}</text>
+        </view>
+        <view class="row">
+          <text class="row__k">商品金额</text>
+          <text class="row__v">¥{{order.amountCent / 100}}</text>
+        </view>
+        <view class="row">
+          <text class="row__k">优惠</text>
+          <text class="row__v">-¥{{order.discountCent / 100}}</text>
+        </view>
+        <view class="row row--strong">
+          <text class="row__k">应付</text>
+          <text class="row__v">¥{{order.payableCent / 100}}</text>
+        </view>
+      </view>
+
+      <view class="hint" bindtap="onAgreement">
+        当前为练习项目，接入的是「模拟支付」，不会产生真实扣款。
+      </view>
+    </view>
+
+    <view class="bar">
+      <view class="bar__cancel" bindtap="onCancel">放弃支付</view>
+      <view
+        class="bar__pay {{paying || expired || order.status !== 0 ? 'bar__pay--disabled' : ''}}"
+        bindtap="onPay"
+      >
+        {{paying ? '支付中…' : expired ? '订单已过期' : order.status === 1 ? '已完成' : '模拟支付'}}
+      </view>
+    </view>
+  </block>
+</view>

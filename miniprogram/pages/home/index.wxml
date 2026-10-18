@@ -19,8 +19,8 @@
       <view
         class="promo__big"
         wx:if="{{banners[0]}}"
-        data-id="{{banners[0].jumpUrl}}"
-        bindtap="onActivityTap"
+        data-i="0"
+        bindtap="onBannerTap"
       >
         <image class="promo__img" src="{{banners[0].imageUrl}}" mode="aspectFill" />
         <view class="promo__mask">
@@ -28,7 +28,7 @@
           <text class="promo__sub">{{banners[0].subtitle}}</text>
         </view>
       </view>
-      <view class="promo__small" wx:if="{{banners[1]}}">
+      <view class="promo__small" wx:if="{{banners[1]}}" data-i="1" bindtap="onBannerTap">
         <image class="promo__img" src="{{banners[1].imageUrl}}" mode="aspectFill" />
         <view class="promo__mask promo__mask--vertical">
           <text class="promo__title promo__title--sm">{{banners[1].title}}</text>

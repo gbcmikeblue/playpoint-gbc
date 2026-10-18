@@ -1,0 +1,149 @@
+<view class="page">
+  <nav-bar title="活动详情" />
+
+  <view wx:if="{{loading}}" class="state">加载中…</view>
+  <view wx:elif="{{error}}" class="state" bindtap="onRetry">加载失败，点击重试</view>
+
+  <block wx:elif="{{detail}}">
+    <scroll-view scroll-y class="scroll" style="top: {{statusBarHeight + 44}}px;">
+      <image class="cover" src="{{detail.coverUrl}}" mode="aspectFill" />
+
+      <view class="body">
+        <view class="title">{{detail.title}}</view>
+        <view class="tags" wx:if="{{detail.tags.length}}">
+          <text wx:for="{{detail.tags}}" wx:key="*this" class="tag">{{item}}</text>
+        </view>
+
+        <view class="meta">
+          <view class="meta__row">
+            <text class="meta__icon">🕐</text>
+            <view class="meta__text">
+              <view wx:if="{{!detail.sessions.length}}">{{detail.startText || '时间待定'}}</view>
+              <block wx:else>
+                <view
+                  wx:for="{{detail.sessions}}"
+                  wx:key="startAt"
+                  class="session {{activeSession === index ? 'is-active' : ''}} {{item.full ? 'is-full' : ''}}"
+                  data-i="{{index}}"
+                  bindtap="onSessionTap"
+                >
+                  <text>{{item.timeText}}</text>
+                  <text class="session__count">{{item.full ? '已满' : item.countText}}</text>
+                </view>
+              </block>
+            </view>
+          </view>
+
+          <view class="meta__row" bindtap="onMapTap">
+            <text class="meta__icon">📍</text>
+            <view class="meta__text">
+              <view class="meta__strong">{{detail.poiName}}</view>
+              <view class="meta__sub">{{detail.address}}</view>
+            </view>
+            <text class="meta__arrow">›</text>
+          </view>
+
+          <view class="meta__row">
+            <text class="meta__icon">👥</text>
+            <view class="meta__text">
+              <view class="meta__strong">{{detail.joinedCount}}/{{detail.capacity}} 人已报名</view>
+              <view class="meta__sub">{{detail.joinedText}}</view>
+            </view>
+          </view>
+        </view>
+
+        <view class="section" wx:if="{{detail.highlights.length}}">
+          <view class="section__title">活动亮点</view>
+          <view wx:for="{{detail.highlights}}" wx:key="title" class="hl">
+            <text class="hl__icon">{{item.icon}}</text>
+            <view class="hl__body">
+              <view class="hl__title">{{item.title}}</view>
+              <view class="hl__content">{{item.content}}</view>
+            </view>
+          </view>
+        </view>
+
+        <view class="section" wx:if="{{detail.host}}">
+          <view class="section__title">主办方</view>
+          <view class="host" bindtap="onHostTap">
+            <image class="host__avatar" src="{{detail.host.avatarUrl}}" mode="aspectFill" />
+            <view class="host__name flex1 ellipsis">{{detail.host.name}}</view>
+            <view class="host__follow">关注</view>
+          </view>
+        </view>
+
+        <view class="section" wx:if="{{detail.refundPolicy}}">
+          <view class="section__title">退款说明</view>
+          <view class="refund">{{detail.refundPolicy}}</view>
+        </view>
+
+        <view class="section" wx:if="{{detail.recommend.length}}">
+          <view class="section__title">同城推荐</view>
+          <scroll-view scroll-x class="recs">
+            <view
+              wx:for="{{detail.recommend}}"
+              wx:key="id"
+              class="rec"
+              data-id="{{item.id}}"
+              bindtap="onRecommendTap"
+            >
+              <image class="rec__cover" src="{{item.coverUrl}}" mode="aspectFill" />
+              <view class="rec__title ellipsis-2">{{item.title}}</view>
+              <view class="rec__meta">{{item.dateText}} · {{item.joinText}}</view>
+            </view>
+          </scroll-view>
+        </view>
+      </view>
+
+      <view class="gap-bottom"></view>
+    </scroll-view>
+
+    <view class="bar">
+      <view class="bar__price">
+        <text class="bar__now">{{detail.priceText}}</text>
+        <text class="bar__label">现场付/在线付</text>
+      </view>
+      <view
+        class="bar__btn {{detail.joinState === 'full' || detail.joinState === 'ended' ? 'bar__btn--disabled' : ''}}"
+        bindtap="onSignupTap"
+      >
+        {{detail.joinState === 'joined' ? '已报名 · 看票' : detail.joinState === 'full' ? '名额已满' : detail.joinState === 'ended' ? '活动已结束' : '立即报名'}}
+      </view>
+    </view>
+
+    <!-- 报名信息弹层 -->
+    <view wx:if="{{sheetVisible}}" class="mask" bindtap="onSheetClose">
+      <view class="sheet" catchtap="noop">
+        <view class="sheet__bar"></view>
+        <view class="sheet__title">填写报名信息</view>
+
+        <view class="field">
+          <text class="field__label">昵称</text>
+          <input
+            class="field__input"
+            value="{{nickname}}"
+            maxlength="16"
+            placeholder="给自己起个昵称"
+            bindinput="onNickname"
+          />
+        </view>
+
+        <view class="field">
+          <text class="field__label">性别</text>
+          <view class="gender">
+            <view class="gender__item {{gender === 1 ? 'is-active' : ''}}" data-g="1" bindtap="onGender">男生</view>
+            <view class="gender__item {{gender === 2 ? 'is-active' : ''}}" data-g="2" bindtap="onGender">女生</view>
+          </view>
+        </view>
+
+        <view class="sheet__hint">
+          报名即表示同意《活动报名须知》，名额有限，报名后可在票夹查看电子票。
+        </view>
+
+        <view class="btn-primary sheet__submit {{submitting ? 'btn-primary--disabled' : ''}}" bindtap="onSubmit">
+          {{submitting ? '提交中…' : (detail.priceCent > 0 ? '去支付 ' + detail.priceText : '确认报名')}}
+        </view>
+      </view>
+    </view>
+  </block>
+</view>

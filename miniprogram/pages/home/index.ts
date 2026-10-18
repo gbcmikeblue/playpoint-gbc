@@ -38,6 +38,14 @@ Page({
     const tb = this.getTabBar && this.getTabBar()
     if (tb) tb.setData({ selected: 0 })
     this.syncPrivacy()
+
+    const city = appStore.state.city
+    if (city?.name && city.name !== this.data.cityName) {
+      // 城市变了：换城市后重新拉第一页
+      this.setData({ cityName: city.name, cursor: '' })
+      this.load(true)
+      return
+    }
     if (!this.data.list.length) this.load(true)
   },
 
@@ -96,11 +104,11 @@ Page({
   },
 
   onCityTap() {
-    wx.showToast({ title: '城市选择 M1 开放', icon: 'none' })
+    wx.navigateTo({ url: '/pages/city/select/index' })
   },
 
   onSearchTap() {
-    wx.showToast({ title: '搜索 M1 开放', icon: 'none' })
+    wx.showToast({ title: '搜索开发中，先按分类逛', icon: 'none' })
   },
 
   onSortTap() {
@@ -120,7 +128,22 @@ Page({
 
   onActivityTap(e: any) {
     const id = e.currentTarget.dataset.id
-    wx.showToast({ title: `活动详情 ${id}（M1 开放）`, icon: 'none' })
+    if (!id) return
+    wx.navigateTo({ url: `/pages/activity/detail/index?id=${id}` })
+  },
+
+  onBannerTap(e: any) {
+    const b = this.data.banners[e.currentTarget.dataset.i]
+    if (!b) return
+    if (b.jumpType === 'activity' && b.jumpUrl) {
+      wx.navigateTo({ url: `/pages/activity/detail/index?id=${b.jumpUrl}` })
+      return
+    }
+    if (b.jumpUrl) wx.navigateTo({ url: b.jumpUrl })
+  },
+
+  onTicketTap() {
+    wx.navigateTo({ url: '/pages/ticket/list/index' })
   },
 
   onPrivacyAgree() {

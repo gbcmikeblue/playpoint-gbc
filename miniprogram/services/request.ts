@@ -1,5 +1,6 @@
 import { env } from '../config/env'
 import { KEYS, get, remove, set } from '../utils/storage'
+import { mockCall, mockEnabled } from './mock'
 
 export interface ApiRes<T> {
   code: number
@@ -72,6 +73,18 @@ export interface RequestOptions {
 }
 
 export async function request<T = any>(o: RequestOptions): Promise<T> {
+  // Mock 命中则直接返回本地数据：真机预览没有后端也能跑通全链路
+  if (mockEnabled()) {
+    const r = await mockCall(o)
+    if (r.hit) {
+      if (r.error) {
+        if (!o.silent) wx.showToast({ title: r.error.message, icon: 'none' })
+        throw new ApiError(r.error.code, r.error.message)
+      }
+      return r.data as T
+    }
+  }
+
   const header: Record<string, string> = { 'content-type': 'application/json', ...authHeader() }
 
   let res: any

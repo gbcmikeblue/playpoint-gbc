@@ -1,4 +1,6 @@
 import { api } from '../../services/api'
+import { env } from '../../config/env'
+import { mockEnabled, setMockEnabled } from '../../services/mock'
 import { appStore } from '../../stores/app'
 
 Page({
@@ -9,6 +11,8 @@ Page({
     tickets: [] as any[],
     ticketsLoaded: false,
     ticketsLoading: false,
+    isMockEnv: env.mock,
+    mockOn: mockEnabled(),
     grids: [
       { icon: '🏛️', title: '加入的俱乐部', sub: '历史加入记录' },
       { icon: '🧑‍🎤', title: '成为主理人', sub: '办活动，边玩边赚' },
@@ -24,7 +28,15 @@ Page({
   onShow() {
     const tb = this.getTabBar && this.getTabBar()
     if (tb) tb.setData({ selected: 4 })
-    this.setData({ user: appStore.state.user })
+    this.setData({ user: appStore.state.user, mockOn: mockEnabled() })
+  },
+
+  onMockChange(e: any) {
+    const on = !!e.detail.value
+    setMockEnabled(on)
+    this.setData({ mockOn: on, ticketsLoaded: false, tickets: [] })
+    wx.showToast({ title: on ? '已切换到 Mock 数据' : '已切换到真实后端', icon: 'none' })
+    if (this.data.tab === 'ticket') this.loadTickets()
   },
 
   onTab(e: any) {
@@ -52,6 +64,6 @@ Page({
   },
 
   onTicket(e: any) {
-    wx.showToast({ title: `取票页 ${e.currentTarget.dataset.id}（M1 开放）`, icon: 'none' })
+    wx.navigateTo({ url: `/pages/ticket/detail/index?id=${e.currentTarget.dataset.id}` })
   },
 })

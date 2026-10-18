@@ -69,6 +69,15 @@
       </view>
     </view>
 
+    <!-- 调试开关：develop 环境可切换接口数据来源 -->
+    <view class="debug" wx:if="{{isMockEnv}}">
+      <view class="debug__left">
+        <view class="debug__title">Mock 接口数据</view>
+        <view class="debug__sub">{{mockOn ? '当前用本地数据，不连后端' : '当前请求真实后端'}}</view>
+      </view>
+      <switch checked="{{mockOn}}" color="#00e676" bindchange="onMockChange" />
+    </view>
+
     <!-- 内 Tab -->
     <view class="tabs">
       <view class="tabs__item {{tab === 'played' ? 'is-active' : ''}}" data-tab="played" bindtap="onTab">我玩过的</view>

@@ -1,0 +1,51 @@
+.page {
+  min-height: 100vh;
+  background: #fff;
+}
+
+.wrap {
+  padding-left: 56rpx;
+  padding-right: 56rpx;
+  text-align: center;
+}
+
+.badge {
+  width: 140rpx;
+  height: 140rpx;
+  line-height: 140rpx;
+  margin: 0 auto;
+  border-radius: 50%;
+  font-size: 68rpx;
+  font-weight: 700;
+}
+
+.badge--ok {
+  background: var(--c-brand-weak);
+  color: #0a7a3f;
+}
+
+.badge--fail {
+  background: #ffe9e7;
+  color: var(--c-danger);
+}
+
+.title {
+  margin-top: 36rpx;
+  font-size: 40rpx;
+  font-weight: 800;
+}
+
+.sub {
+  margin-top: 14rpx;
+  font-size: 25rpx;
+  color: var(--c-text-3);
+  line-height: 1.6;
+}
+
+.actions {
+  margin-top: 80rpx;
+}
+
+.actions__second {
+  margin-top: 20rpx;
+}

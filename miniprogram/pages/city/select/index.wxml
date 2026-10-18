@@ -1,0 +1,69 @@
+<view class="page">
+  <nav-bar title="选择城市" />
+
+  <view wx:if="{{loading}}" class="state">加载中…</view>
+  <view wx:elif="{{error}}" class="state" bindtap="onRetry">加载失败，点击重试</view>
+
+  <block wx:else>
+    <scroll-view
+      scroll-y
+      class="scroll"
+      style="top: {{statusBarHeight + 44}}px;"
+      scroll-into-view="{{scrollTo}}"
+      scroll-with-animation
+    >
+      <view class="block">
+        <view class="block__title">当前定位</view>
+        <view class="located" bindtap="onLocate">
+          <text class="located__name">{{located.name}}</text>
+          <text class="located__hint">点击重新定位</text>
+        </view>
+      </view>
+
+      <view class="block">
+        <view class="block__title">热门城市</view>
+        <view class="hot">
+          <view
+            wx:for="{{hot}}"
+            wx:key="code"
+            class="hot__item {{located.code === item.code ? 'is-active' : ''}}"
+            data-code="{{item.code}}"
+            data-name="{{item.name}}"
+            bindtap="onPick"
+          >
+            {{item.name}}
+          </view>
+        </view>
+      </view>
+
+      <view wx:for="{{groups}}" wx:key="initial" class="group" id="letter-{{item.initial}}">
+        <view class="group__initial">{{item.initial}}</view>
+        <view
+          wx:for="{{item.cities}}"
+          wx:for-item="c"
+          wx:key="code"
+          class="group__item"
+          data-code="{{c.code}}"
+          data-name="{{c.name}}"
+          bindtap="onPick"
+        >
+          {{c.name}}
+        </view>
+      </view>
+
+      <view class="safe-bottom"></view>
+    </scroll-view>
+
+    <view class="idx">
+      <view
+        wx:for="{{letters}}"
+        wx:key="*this"
+        class="idx__item {{current === item ? 'is-active' : ''}}"
+        data-l="{{item}}"
+        bindtap="onLetter"
+      >
+        {{item}}
+      </view>
+    </view>
+  </block>
+</view>

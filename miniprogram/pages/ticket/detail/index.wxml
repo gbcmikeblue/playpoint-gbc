@@ -1,0 +1,32 @@
+<view class="page">
+  <nav-bar title="电子票" />
+
+  <view wx:if="{{loading}}" class="state">加载中…</view>
+  <view wx:elif="{{error}}" class="state" bindtap="onRetry">加载失败，点击重试</view>
+
+  <scroll-view wx:elif="{{ticket}}" scroll-y class="scroll" style="top: {{statusBarHeight + 44}}px;">
+    <view class="hero">
+      <view class="hero__status">{{ticket.statusText}}</view>
+      <view class="hero__title">{{ticket.title}}</view>
+      <view class="hero__row" wx:if="{{ticket.poiName}}">📍 {{ticket.poiName}}</view>
+      <view class="hero__row" wx:if="{{ticket.sessionText}}">🕐 {{ticket.sessionText}}</view>
+    </view>
+
+    <view class="qr-card">
+      <canvas type="2d" id="qr" class="qr"></canvas>
+      <view class="qr__tip">{{ticket.qrToken ? '请向工作人员出示二维码验票' : '该票当前不可验票'}}</view>
+      <view class="qr__code" wx:if="{{ticket.qrToken}}">票号 {{ticket.qrToken}}</view>
+    </view>
+
+    <view class="notice">
+      <view class="notice__title">验票须知</view>
+      <view wx:for="{{ticket.notice}}" wx:key="*this" class="notice__item">
+        <text class="notice__idx">{{index + 1}}</text>
+        <text class="notice__text">{{item}}</text>
+      </view>
+    </view>
+
+    <view class="save" bindtap="onSave">保存到相册</view>
+    <view class="safe-bottom"></view>
+  </scroll-view>
+</view>
