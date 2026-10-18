@@ -1,0 +1,73 @@
+/* 通用工具类 */
+.row {
+  display: flex;
+  align-items: center;
+}
+.col {
+  display: flex;
+  flex-direction: column;
+}
+.flex1 {
+  flex: 1;
+  min-width: 0;
+}
+.ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.ellipsis-2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+.page-pad {
+  padding-left: var(--sp-3);
+  padding-right: var(--sp-3);
+}
+.safe-bottom {
+  padding-bottom: calc(24rpx + env(safe-area-inset-bottom));
+}
+
+/* 荧光高亮：结果页等级、票数、小标题统一使用 */
+.text-highlight {
+  background: linear-gradient(transparent 58%, #9bf7be 58%);
+}
+
+/* 主按钮 */
+.btn-primary {
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  border-radius: var(--r-full);
+  background: var(--c-brand);
+  color: #111;
+  font-size: 30rpx;
+  font-weight: 600;
+}
+.btn-primary--disabled {
+  background: #c9c9c9;
+  color: #fff;
+}
+.btn-dark {
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  border-radius: var(--r-full);
+  background: #0d0d0d;
+  color: #fff;
+  font-size: 30rpx;
+  font-weight: 600;
+}
+.btn-ghost {
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  border-radius: var(--r-full);
+  background: #fff;
+  border: 1rpx solid #e5e5e5;
+  color: #111;
+  font-size: 30rpx;
+  font-weight: 600;
+}

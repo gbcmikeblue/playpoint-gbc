@@ -1,0 +1,69 @@
+<nav-bar title="组件与令牌" mode="normal" back="{{true}}" scrollTop="{{0}}" />
+
+<view class="wrap" style="padding-top: 88px;">
+  <view class="sec">
+    <view class="sec__title">色彩令牌</view>
+    <view class="swatches">
+      <view wx:for="{{colors}}" wx:key="name" class="sw">
+        <view class="sw__box" style="background: {{item.v}};"></view>
+        <view class="sw__name">{{item.name}}</view>
+        <view class="sw__v">{{item.v}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="sec">
+    <view class="sec__title">字号层级</view>
+    <view wx:for="{{sizes}}" wx:key="t" class="type" style="font-size: {{item.s}}rpx; font-weight: {{item.w}};">
+      {{item.t}}　聊点有意思的
+    </view>
+  </view>
+
+  <view class="sec">
+    <view class="sec__title">按钮</view>
+    <view class="btn-primary">主要按钮（绿底黑字）</view>
+    <view class="btn-primary btn-primary--disabled" style="margin-top: 16rpx;">禁用按钮</view>
+    <view class="btn-dark" style="margin-top: 16rpx;">黑色按钮（打卡 / 参加）</view>
+    <view class="btn-ghost" style="margin-top: 16rpx;">次按钮（白底描边）</view>
+  </view>
+
+  <view class="sec">
+    <view class="sec__title">高亮与标签</view>
+    <view class="demo-line">
+      <text class="text-highlight">荧光高亮文字</text>
+      <text class="chip">胶囊标签</text>
+      <text class="chip chip--active">选中态</text>
+    </view>
+  </view>
+
+  <view class="sec">
+    <view class="sec__title">卡片与阴影</view>
+    <view class="demo-card">
+      <view class="demo-card__cover"></view>
+      <view class="demo-card__body">
+        <view class="demo-card__d">10/18 <text class="demo-card__today">今天</text></view>
+        <view class="demo-card__t">10.18周日匹克球热身畅打4h｜全天</view>
+        <view class="demo-card__loc">◎ 匹克球体育中心</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="sec">
+    <view class="sec__title">空状态 / 骨架屏</view>
+    <view class="empty">
+      <view class="empty__art">🧺</view>
+      <view class="empty__title">票夹还是空的</view>
+      <view class="empty__desc">快去兑换心仪的活动吧</view>
+    </view>
+    <view class="sk">
+      <view class="sk__cover"></view>
+      <view class="sk__lines">
+        <view class="sk__line" style="width: 40%;"></view>
+        <view class="sk__line" style="width: 90%;"></view>
+        <view class="sk__line" style="width: 60%;"></view>
+      </view>
+    </view>
+  </view>
+
+  <view class="foot">M0 组件基线 · 共 10 个 base 组件</view>
+</view>

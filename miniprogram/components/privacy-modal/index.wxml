@@ -1,0 +1,24 @@
+<view wx:if="{{visible}}" class="pm-mask" catchtouchmove="noop">
+  <view class="pm-card">
+    <view class="pm-title">温馨提示</view>
+    <scroll-view scroll-y class="pm-body">
+      <view class="pm-p">亲爱的用户，感谢你信任并使用{{appName}}！</view>
+      <view class="pm-p">
+        我们依据相关法律法规要求修订了<text class="pm-link" data-type="user" bindtap="openAgreement">《用户协议》</text>和<text
+          class="pm-link"
+          data-type="privacy"
+          bindtap="openAgreement"
+          >《用户隐私政策》</text
+        >，请你在点击同意前仔细阅读并充分理解相关条款，尤其是以颜色或加粗进行标识的重要条款。为了便于你理解，特向你说明如下：
+      </view>
+      <view class="pm-p">1. 为向你提供相关基本业务功能，我们会处理你必要的个人信息；</view>
+      <view class="pm-p">
+        2. 为了向你提供更契合你需求的页面展示，活动及/或服务（比如展示所在位置附近的活动等），你需要授权我们获取你的位置权限，你有权拒绝或撤回授权。
+      </view>
+    </scroll-view>
+    <view class="pm-foot">
+      <view class="pm-btn" bindtap="onDisagree">不同意</view>
+      <view class="pm-btn pm-btn--primary" bindtap="onAgree">同意</view>
+    </view>
+  </view>
+</view>

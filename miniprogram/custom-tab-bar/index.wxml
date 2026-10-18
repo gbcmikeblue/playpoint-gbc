@@ -1,0 +1,20 @@
+<view class="tb">
+  <view class="tb__inner">
+    <view
+      wx:for="{{list}}"
+      wx:key="text"
+      class="tb__item"
+      data-i="{{index}}"
+      bindtap="onTap"
+    >
+      <block wx:if="{{item.fab}}">
+        <view class="tb__fab">＋</view>
+      </block>
+      <block wx:else>
+        <view class="tb__icon {{selected === index ? 'is-active' : ''}}">{{item.icon}}</view>
+        <view class="tb__text {{selected === index ? 'is-active' : ''}}">{{item.text}}</view>
+        <view wx:if="{{index === 3 && unread > 0}}" class="tb__badge">{{unread > 99 ? '99+' : unread}}</view>
+      </block>
+    </view>
+  </view>
+</view>

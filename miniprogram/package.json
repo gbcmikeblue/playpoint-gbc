@@ -1,0 +1,14 @@
+{
+  "name": "playpoint-miniprogram",
+  "version": "0.1.0",
+  "private": true,
+  "description": "PlayPoint 微信小程序（M0）",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "gen:types": "openapi-typescript http://localhost:3000/docs-json -o services/types/api.d.ts"
+  },
+  "devDependencies": {
+    "miniprogram-api-typings": "3.12.2",
+    "typescript": "5.4.5"
+  }
+}

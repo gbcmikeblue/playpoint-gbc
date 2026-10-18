@@ -1,0 +1,39 @@
+<view class="page">
+  <view class="nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="nav__row">
+      <view class="nav__title">消息</view>
+    </view>
+  </view>
+
+  <view class="body" style="padding-top: {{statusBarHeight + 44}}px;">
+    <view class="notice" bindtap="onNotice">
+      <view class="notice__icon">🔔</view>
+      <view class="notice__text">通知消息</view>
+      <view class="arrow">›</view>
+    </view>
+
+    <view class="gap"></view>
+
+    <view
+      wx:for="{{conversations}}"
+      wx:key="id"
+      class="conv"
+      data-id="{{item.id}}"
+      bindtap="onChat"
+      hover-class="conv--hover"
+    >
+      <view class="conv__avatar">{{item.gender === 1 ? '🐱' : '🌟'}}</view>
+      <view class="conv__main">
+        <view class="conv__name">
+          {{item.name}}
+          <text wx:if="{{item.gender === 1}}" class="conv__gender">♀</text>
+        </view>
+        <view class="conv__digest">{{item.digest}}</view>
+      </view>
+      <view class="conv__side">
+        <view wx:if="{{item.unread}}" class="conv__badge">{{item.unread}}</view>
+        <view class="conv__time">{{item.time}}</view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,28 @@
+# 依赖
+node_modules/
+
+# 构建产物
+backend/dist/
+miniprogram/miniprogram_npm/
+*.tsbuildinfo
+
+# 本地环境变量（含数据库口令，只保留模板说明在文档里）
+.env
+.env.local
+backend/.env
+
+# 本地工具脚本与运行日志（说明见 data/doc/06-m0/06-环境搭建实录.md）
+.work/
+
+# 项目初始化用的参考截图：只作本地比对，不入库
+data/image/
+
+# 微信开发者工具的个人配置（每个开发者不同）
+miniprogram/project.private.config.json
+
+# 系统 / 编辑器
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log

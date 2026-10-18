@@ -1,0 +1,36 @@
+/* 设计令牌 —— 与 data/doc/02-design/01-设计语言与设计令牌.md 对齐 */
+page {
+  --c-brand: #00e676;
+  --c-brand-strong: #00c853;
+  --c-brand-weak: #d7f8df;
+  --c-brand-ghost: #eafbf0;
+
+  --c-text-1: #111111;
+  --c-text-2: #666666;
+  --c-text-3: #999999;
+  --c-text-4: #bbbbbb;
+  --c-line: #f0f0f0;
+  --c-fill: #f7f7f7;
+  --c-mask: rgba(0, 0, 0, 0.45);
+  --c-danger: #ff3b30;
+  --c-link: #2f6bff;
+
+  --grad-mine: linear-gradient(160deg, #8b5cf6 0%, #b99bf5 55%, #cdbbf8 100%);
+  --grad-home: linear-gradient(180deg, #eafbf0 0%, #ffffff 42%);
+
+  --fs-h1: 40rpx;
+  --fs-h2: 32rpx;
+  --fs-body: 28rpx;
+  --fs-sm: 24rpx;
+  --fs-xs: 20rpx;
+
+  --sp-3: 24rpx;
+  --r-md: 20rpx;
+  --r-lg: 24rpx;
+  --r-xl: 40rpx;
+  --r-full: 999rpx;
+
+  --sh-card: 0 8rpx 24rpx rgba(17, 17, 17, 0.06);
+  --sh-fab: 0 8rpx 20rpx rgba(0, 230, 118, 0.45);
+  --sh-bar: 0 -4rpx 20rpx rgba(0, 0, 0, 0.05);
+}

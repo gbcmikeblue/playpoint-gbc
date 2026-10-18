@@ -1,0 +1,222 @@
+// PlayPoint backend — M0 schema (10 tables)
+// 设计说明见 data/doc/04-backend/02-数据模型设计.md
+// 注意：activity_signup 的「部分唯一索引」Prisma 不支持，由 migration SQL 追加。
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String    @id @db.VarChar(32)
+  openid          String    @unique @db.VarChar(64)
+  unionid         String?   @db.VarChar(64)
+  nickname        String    @default("微信用户") @db.VarChar(32)
+  avatarUrl       String?   @map("avatar_url") @db.VarChar(512)
+  gender          Int       @default(0) @db.SmallInt
+  birthday        DateTime? @db.Date
+  about           String?   @db.VarChar(200)
+  signature       String?   @db.VarChar(100)
+  mbti            String?   @db.Char(4)
+  mbtiSeen        Boolean   @default(false) @map("mbti_seen")
+  phoneEnc        String?   @map("phone_enc") @db.VarChar(128)
+  role            Int       @default(0) @db.SmallInt
+  followCount     Int       @default(0) @map("follow_count")
+  fansCount       Int       @default(0) @map("fans_count")
+  playedCount     Int       @default(0) @map("played_count")
+  togetherCount   Int       @default(0) @map("together_count")
+  orgCount        Int       @default(0) @map("org_count")
+  privacyAgreedAt DateTime? @map("privacy_agreed_at") @db.Timestamptz
+  status          Int       @default(0) @db.SmallInt
+  createdAt       DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt       DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+  deletedAt       DateTime? @map("deleted_at") @db.Timestamptz
+
+  signups ActivitySignup[]
+
+  @@index([role, status])
+  @@map("user")
+}
+
+model City {
+  id       String  @id @db.VarChar(32)
+  code     String  @unique @db.VarChar(16)
+  name     String  @db.VarChar(32)
+  province String? @db.VarChar(32)
+  initial  String  @db.Char(1)
+  isHot    Boolean @default(false) @map("is_hot")
+  sort     Int     @default(0)
+  status   Int     @default(1) @db.SmallInt
+
+  activities Activity[]
+  campaigns  Campaign[]
+
+  @@index([isHot, sort])
+  @@map("city")
+}
+
+model Category {
+  id     String  @id @db.VarChar(32)
+  name   String  @db.VarChar(24)
+  icon   String? @db.VarChar(64)
+  emoji  String? @db.VarChar(8)
+  isHot  Boolean @default(false) @map("is_hot")
+  sort   Int     @default(0)
+  status Int     @default(1) @db.SmallInt
+
+  @@map("category")
+}
+
+model Activity {
+  id           String    @id @db.VarChar(32)
+  title        String    @db.VarChar(80)
+  coverUrl     String    @map("cover_url") @db.VarChar(512)
+  cityId       String    @map("city_id") @db.VarChar(32)
+  poiName      String?   @map("poi_name") @db.VarChar(120)
+  address      String?   @db.VarChar(200)
+  lat          Decimal?  @db.Decimal(10, 7)
+  lng          Decimal?  @db.Decimal(10, 7)
+  startAt      DateTime  @map("start_at") @db.Timestamptz
+  endAt        DateTime? @map("end_at") @db.Timestamptz
+  sessions     Json      @default("[]")
+  priceCent    Int       @default(0) @map("price_cent")
+  capacity     Int       @default(0)
+  joinedCount  Int       @default(0) @map("joined_count")
+  tags         Json      @default("[]")
+  refundPolicy String?   @map("refund_policy") @db.VarChar(200)
+  highlights   Json      @default("[]")
+  categoryIds  Json      @default("[]") @map("category_ids")
+  hostId       String?   @map("host_id") @db.VarChar(32)
+  clubId       String?   @map("club_id") @db.VarChar(32)
+  signupSchema Json      @default("{}") @map("signup_schema")
+  status       Int       @default(1) @db.SmallInt
+  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt    DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+  deletedAt    DateTime? @map("deleted_at") @db.Timestamptz
+
+  city    City             @relation(fields: [cityId], references: [id])
+  signups ActivitySignup[]
+
+  @@index([cityId, status, startAt])
+  @@map("activity")
+}
+
+model ActivitySignup {
+  id         String    @id @db.VarChar(32)
+  activityId String    @map("activity_id") @db.VarChar(32)
+  userId     String    @map("user_id") @db.VarChar(32)
+  sessionAt  DateTime? @map("session_at") @db.Timestamptz
+  nickname   String    @db.VarChar(32)
+  gender     Int       @default(0) @db.SmallInt
+  avatarUrl  String?   @map("avatar_url") @db.VarChar(512)
+  extra      Json      @default("{}")
+  orderId    String?   @map("order_id") @db.VarChar(32)
+  status     Int       @default(0) @db.SmallInt
+  createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz
+
+  activity Activity @relation(fields: [activityId], references: [id])
+  user     User     @relation(fields: [userId], references: [id])
+
+  @@index([userId, status])
+  @@map("activity_signup")
+}
+
+model PayOrder {
+  id         String    @id @db.VarChar(32)
+  orderNo    String    @unique @map("order_no") @db.VarChar(32)
+  userId     String    @map("user_id") @db.VarChar(32)
+  bizType    Int       @map("biz_type") @db.SmallInt
+  bizId      String    @map("biz_id") @db.VarChar(32)
+  signupId   String?   @map("signup_id") @db.VarChar(32)
+  title      String    @db.VarChar(80)
+  coverUrl   String?   @map("cover_url") @db.VarChar(512)
+  amountCent Int       @map("amount_cent")
+  status     Int       @default(0) @db.SmallInt
+  payChannel String    @default("mock") @map("pay_channel") @db.VarChar(16)
+  paidAt     DateTime? @map("paid_at") @db.Timestamptz
+  expireAt   DateTime  @map("expire_at") @db.Timestamptz
+  createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  updatedAt  DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+
+  @@index([userId, status, createdAt(sort: Desc)])
+  @@index([expireAt])
+  @@map("pay_order")
+}
+
+model Ticket {
+  id        String    @id @db.VarChar(32)
+  userId    String    @map("user_id") @db.VarChar(32)
+  type      Int       @db.SmallInt
+  refId     String    @map("ref_id") @db.VarChar(32)
+  title     String    @db.VarChar(80)
+  coverUrl  String?   @map("cover_url") @db.VarChar(512)
+  sessionAt DateTime? @map("session_at") @db.Timestamptz
+  validFrom DateTime? @map("valid_from") @db.Timestamptz
+  validTo   DateTime? @map("valid_to") @db.Timestamptz
+  status    Int       @default(0) @db.SmallInt
+  qrToken   String    @unique @map("qr_token") @db.VarChar(64)
+  sealText  String?   @map("seal_text") @db.VarChar(16)
+  notice    Json      @default("[]")
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz
+
+  @@index([userId, type, status])
+  @@map("ticket")
+}
+
+model Campaign {
+  id          String   @id @db.VarChar(32)
+  title       String   @db.VarChar(80)
+  subtitle    String?  @db.VarChar(120)
+  sealUrl     String?  @map("seal_url") @db.VarChar(512)
+  bannerUrl   String   @map("banner_url") @db.VarChar(512)
+  regionName  String?  @map("region_name") @db.VarChar(40)
+  cityId      String?  @map("city_id") @db.VarChar(32)
+  description String?
+  images      Json     @default("[]")
+  startAt     DateTime @map("start_at") @db.Timestamptz
+  endAt       DateTime @map("end_at") @db.Timestamptz
+  priceCent   Int      @default(0) @map("price_cent")
+  joinedCount Int      @default(0) @map("joined_count")
+  medalHint   String?  @map("medal_hint") @db.VarChar(60)
+  status      Int      @default(1) @db.SmallInt
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  city        City?               @relation(fields: [cityId], references: [id])
+  checkpoints CampaignCheckpoint[]
+
+  @@index([cityId, status, startAt])
+  @@map("campaign")
+}
+
+model CampaignCheckpoint {
+  id         String  @id @db.VarChar(32)
+  campaignId String  @map("campaign_id") @db.VarChar(32)
+  seq        Int
+  name       String  @db.VarChar(60)
+  poiName    String? @map("poi_name") @db.VarChar(120)
+  address    String? @db.VarChar(200)
+  lat        Decimal? @db.Decimal(10, 7)
+  lng        Decimal? @db.Decimal(10, 7)
+  radiusM    Int     @default(300) @map("radius_m")
+  coverUrl   String? @map("cover_url") @db.VarChar(512)
+  intro      String?
+  status     Int     @default(1) @db.SmallInt
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  @@unique([campaignId, seq])
+  @@map("campaign_checkpoint")
+}
+
+model AppConfig {
+  key       String   @id @db.VarChar(48)
+  value     Json
+  version   Int      @default(1)
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at") @db.Timestamptz
+
+  @@map("app_config")
+}

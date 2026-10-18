@@ -1,0 +1,37 @@
+{
+  "pages": [
+    "pages/home/index",
+    "pages/campaign/list/index",
+    "pages/message/index",
+    "pages/mine/index",
+    "pages/dev/components"
+  ],
+  "subPackages": [],
+  "preloadRule": {},
+  "tabBar": {
+    "custom": true,
+    "color": "#9E9E9E",
+    "selectedColor": "#111111",
+    "backgroundColor": "#FFFFFF",
+    "list": [
+      { "pagePath": "pages/home/index", "text": "玩点" },
+      { "pagePath": "pages/campaign/list/index", "text": "打卡" },
+      { "pagePath": "pages/message/index", "text": "消息" },
+      { "pagePath": "pages/mine/index", "text": "我的" }
+    ]
+  },
+  "requiredPrivateInfos": ["getFuzzyLocation"],
+  "permission": {
+    "scope.userFuzzyLocation": {
+      "desc": "用于展示附近的活动与挑战赛"
+    }
+  },
+  "window": {
+    "navigationStyle": "custom",
+    "backgroundColor": "#FFFFFF",
+    "backgroundTextStyle": "dark"
+  },
+  "style": "v2",
+  "lazyCodeLoading": "requiredComponents",
+  "sitemapLocation": "sitemap.json"
+}

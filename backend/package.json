@@ -1,0 +1,40 @@
+{
+  "name": "playpoint-backend",
+  "private": true,
+  "version": "0.1.0",
+  "description": "PlayPoint miniprogram backend (M0)",
+  "scripts": {
+    "dev": "ts-node -T src/main.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/main.js",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:push": "prisma db push",
+    "db:seed": "tsx prisma/seed.ts"
+  },
+  "dependencies": {
+    "@nestjs/common": "10.3.8",
+    "@nestjs/config": "3.2.2",
+    "@nestjs/core": "10.3.8",
+    "@nestjs/jwt": "10.2.0",
+    "@nestjs/platform-express": "10.3.8",
+    "@nestjs/swagger": "7.3.1",
+    "@prisma/client": "5.14.0",
+    "class-transformer": "0.5.1",
+    "class-validator": "0.14.1",
+    "dayjs": "1.11.11",
+    "reflect-metadata": "0.2.2",
+    "rxjs": "7.8.1"
+  },
+  "devDependencies": {
+    "@types/express": "4.17.21",
+    "@types/node": "20.12.12",
+    "prisma": "5.14.0",
+    "ts-node": "10.9.2",
+    "tsx": "4.11.0",
+    "typescript": "5.4.5"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

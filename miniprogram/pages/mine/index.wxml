@@ -1,0 +1,142 @@
+<view class="page">
+  <!-- 紫色渐变头图 -->
+  <view class="hero" style="padding-top: {{statusBarHeight}}px;">
+    <view class="hero__bar">
+      <view class="hero__edit" bindtap="onEdit">✎ 编辑主页</view>
+    </view>
+
+    <view class="hero__deco">🧚</view>
+
+    <view class="hero__main">
+      <view class="hero__avatar">{{user ? '🙂' : '🙂'}}</view>
+      <view class="hero__name">{{user.nickname || '昵称你'}} <text class="hero__pen">✎</text></view>
+      <view class="hero__stats">
+        <text class="hero__num">0</text> 关注
+        <text class="hero__num">0</text> 粉丝
+      </view>
+      <view class="hero__row2">
+        <text>带 {{user.playedCount || 0}} 人玩</text>
+        <text>和 {{user.togetherCount || 0}} 人一起玩</text>
+        <text>组织 {{user.orgCount || 0}} 场活动</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 白色内容面板 -->
+  <view class="panel">
+    <view class="tags" bindtap="onEdit">
+      <text class="tags__plus">＋</text>
+      <text class="tags__ph">选择个性标签，丰富有趣的你</text>
+    </view>
+
+    <view class="sign" bindtap="onEdit">
+      <text class="sign__icon">💬</text>
+      <text class="sign__ph">{{user.signature || user.about || '说说你的特别之处，让大家印象深刻…'}}</text>
+      <text class="sign__pen">✎</text>
+    </view>
+
+    <view class="tail">
+      <view class="tail__ip">🐱</view>
+      <view class="tail__line"></view>
+      <view class="tail__emoji">😊</view>
+    </view>
+
+    <!-- 天梯卡 + 奖牌卡 -->
+    <view class="cards">
+      <view class="ladder" bindtap="onEdit">
+        <view class="ladder__title">兴趣天梯测试?</view>
+        <view class="ladder__sub">添加你的兴趣天梯</view>
+        <view class="ladder__ball">📈</view>
+      </view>
+      <view class="medal" bindtap="onEdit">
+        <view class="medal__title">奖牌·1</view>
+        <view class="medal__seal">🏅</view>
+      </view>
+    </view>
+
+    <!-- 宫格 -->
+    <view class="grids">
+      <view
+        wx:for="{{grids}}"
+        wx:key="title"
+        class="grid"
+        data-title="{{item.title}}"
+        bindtap="onGrid"
+      >
+        <view class="grid__icon">{{item.icon}}</view>
+        <view class="grid__title">{{item.title}}</view>
+        <view class="grid__sub">{{item.sub}}</view>
+      </view>
+    </view>
+
+    <!-- 内 Tab -->
+    <view class="tabs">
+      <view class="tabs__item {{tab === 'played' ? 'is-active' : ''}}" data-tab="played" bindtap="onTab">我玩过的</view>
+      <view class="tabs__item {{tab === 'ticket' ? 'is-active' : ''}}" data-tab="ticket" bindtap="onTab">票夹</view>
+      <view class="tabs__item {{tab === 'album' ? 'is-active' : ''}}" data-tab="album" bindtap="onTab">影集</view>
+    </view>
+
+    <!-- 票夹 -->
+    <block wx:if="{{tab === 'ticket'}}">
+      <view class="filter">
+        <view class="filter__item is-active">🧩 活动</view>
+        <view class="filter__item">📍 场地</view>
+        <view class="filter__item">🏠 租赁</view>
+        <view class="filter__item">🎫 打卡</view>
+      </view>
+
+      <view wx:if="{{ticketsLoading}}" class="tip">加载中…</view>
+      <view wx:elif="{{tickets.length}}" class="tickets">
+        <view
+          wx:for="{{tickets}}"
+          wx:key="id"
+          class="tk"
+          data-id="{{item.id}}"
+          bindtap="onTicket"
+        >
+          <view class="tk__left">
+            <view class="tk__title ellipsis">{{item.title}}</view>
+            <view class="tk__meta">📍 {{item.poiName || '见活动详情'}}</view>
+            <view class="tk__meta">🕐 {{item.sessionText}}</view>
+            <view class="tk__meta">💚 {{item.guaranteeText}}</view>
+            <view class="tk__btn">我要验票</view>
+          </view>
+          <view class="tk__dash"></view>
+          <view class="tk__right">
+            <view class="tk__status">{{item.sealText}}</view>
+            <view class="tk__seal">{{item.sealText}}</view>
+            <view class="tk__more">更多</view>
+          </view>
+        </view>
+        <view class="tk__history">查看历史记录 ›</view>
+      </view>
+      <view wx:else class="empty">
+        <view class="empty__art">🧺</view>
+        <view class="empty__title">票夹还是空的</view>
+        <view class="empty__desc">快去兑换心仪的活动吧</view>
+      </view>
+    </block>
+
+    <block wx:elif="{{tab === 'played'}}">
+      <view class="empty">
+        <view class="empty__art">🎈</view>
+        <view class="empty__title">还没有玩过的活动</view>
+        <view class="empty__desc">去首页看看有什么好玩的</view>
+      </view>
+    </block>
+
+    <block wx:else>
+      <view class="empty">
+        <view class="empty__art">📷</view>
+        <view class="empty__title">影集还在准备中</view>
+        <view class="empty__desc">打卡后会自动生成</view>
+      </view>
+    </block>
+  </view>
+
+  <view class="brand">
+    <view class="brand__logo">◎</view>
+    <view class="brand__name">玩点</view>
+    <view class="brand__slogan">- 一起玩，才有意思 -</view>
+  </view>
+</view>

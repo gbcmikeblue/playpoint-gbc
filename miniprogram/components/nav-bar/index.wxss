@@ -1,0 +1,88 @@
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: #fff;
+  transition: background 0.2s ease;
+}
+.nav--immersive,
+.nav--transparent {
+  background: transparent;
+}
+.nav--solid {
+  background: #fff;
+  box-shadow: 0 1rpx 0 rgba(0, 0, 0, 0.04);
+}
+
+.nav__inner {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-left: 24rpx;
+  padding-right: 24rpx;
+}
+
+.nav__left,
+.nav__right {
+  display: flex;
+  align-items: center;
+  z-index: 2;
+  min-width: 60rpx;
+}
+.nav__right {
+  margin-left: auto;
+}
+
+.nav__title {
+  position: absolute;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 34rpx;
+  font-weight: 600;
+  color: var(--c-text-1, #111);
+  pointer-events: none;
+}
+.nav__title--left {
+  position: static;
+  text-align: left;
+  margin-left: 8rpx;
+  flex: 1;
+}
+.nav--immersive .nav__title,
+.nav--transparent .nav__title {
+  color: #fff;
+}
+.nav--immersive.nav--solid .nav__title,
+.nav--transparent.nav--solid .nav__title {
+  color: var(--c-text-1, #111);
+}
+
+.nav__back {
+  width: 64rpx;
+  height: 64rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.nav__back--hover {
+  opacity: 0.6;
+}
+.chev {
+  width: 20rpx;
+  height: 20rpx;
+  border-left: 4rpx solid #111;
+  border-bottom: 4rpx solid #111;
+  transform: rotate(45deg);
+  margin-left: 6rpx;
+}
+.nav--immersive .chev,
+.nav--transparent .chev {
+  border-color: #fff;
+}
+.nav--immersive.nav--solid .chev,
+.nav--transparent.nav--solid .chev {
+  border-color: #111;
+}

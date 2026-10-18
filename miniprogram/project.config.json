@@ -1,0 +1,63 @@
+{
+  "description": "PlayPoint 小程序 M0",
+  "projectname": "playpoint-miniprogram",
+  "appid": "wx932d1c38462f907c",
+  "compileType": "miniprogram",
+  "libVersion": "3.5.5",
+  "setting": {
+    "useCompilerPlugins": [
+      "typescript"
+    ],
+    "es6": true,
+    "enhance": true,
+    "minified": true,
+    "urlCheck": false,
+    "postcss": true,
+    "nodeModules": false,
+    "coverView": true,
+    "lazyloadPlaceholderEnable": false,
+    "preloadBackgroundData": false,
+    "autoAudits": false,
+    "uglifyFileName": false,
+    "checkInvalidKey": true,
+    "showShadowRootInWxmlPanel": true,
+    "useIsolateContext": true,
+    "useMultiFrameRuntime": true,
+    "useApiHook": true,
+    "useApiHostProcess": true,
+    "bundle": false,
+    "useStaticServer": false,
+    "showES6CompileOption": false,
+    "compileHotReLoad": true,
+    "compileWorklet": false,
+    "uploadWithSourceMap": true,
+    "packNpmManually": false,
+    "packNpmRelationList": [],
+    "minifyWXSS": true,
+    "minifyWXML": true,
+    "localPlugins": false,
+    "disableUseStrict": false,
+    "condition": false,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    }
+  },
+  "packOptions": {
+    "ignore": [
+      {
+        "value": "node_modules",
+        "type": "folder"
+      },
+      {
+        "value": ".vscode",
+        "type": "folder"
+      }
+    ],
+    "include": []
+  },
+  "condition": {},
+  "simulatorPluginLibVersion": {},
+  "editorSetting": {}
+}

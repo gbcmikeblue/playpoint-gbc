@@ -1,0 +1,157 @@
+.page {
+  min-height: 100vh;
+  background: #fff;
+  padding-bottom: calc(160rpx + env(safe-area-inset-bottom));
+}
+
+.hero {
+  background: linear-gradient(180deg, #d8f8e2 0%, #f2fdf6 70%, #fff 100%);
+  padding-bottom: 32rpx;
+}
+.hero__row {
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  padding: 0 24rpx;
+}
+.hero__back {
+  width: 64rpx;
+  height: 64rpx;
+}
+.hero__msg {
+  margin-left: 16rpx;
+  font-size: 32rpx;
+}
+.hero__inner {
+  padding: 24rpx 32rpx 0;
+}
+.hero__title {
+  font-size: 52rpx;
+  font-weight: 800;
+  letter-spacing: 2rpx;
+  color: #111;
+}
+.hero__sub {
+  font-size: 26rpx;
+  color: #4a6b55;
+  margin-top: 12rpx;
+}
+.hero__deco {
+  font-size: 64rpx;
+  margin-top: 24rpx;
+  letter-spacing: 16rpx;
+  opacity: 0.9;
+}
+
+.list {
+  padding: 0 24rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.cc {
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 20rpx;
+  box-shadow: var(--sh-card);
+}
+.cc--hover {
+  transform: scale(0.99);
+}
+.cc__head {
+  display: flex;
+  align-items: center;
+}
+.cc__seal {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 999rpx;
+  background: #f2f2f2;
+  flex-shrink: 0;
+}
+.cc__headinfo {
+  margin-left: 16rpx;
+  min-width: 0;
+  flex: 1;
+}
+.cc__title {
+  font-size: 30rpx;
+  font-weight: 600;
+}
+.cc__date {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 4rpx;
+}
+
+.cc__imgs {
+  display: flex;
+  gap: 8rpx;
+  margin-top: 20rpx;
+}
+.cc__img {
+  flex: 1;
+  height: 210rpx;
+  border-radius: 20rpx;
+  background: #f5f5f5;
+}
+
+.cc__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20rpx;
+}
+.cc__people {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+.cc__avatar {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 999rpx;
+  background: #d8f8e2;
+  border: 2rpx solid #fff;
+}
+.cc__avatar--2 {
+  margin-left: -12rpx;
+  background: #ffe3a3;
+}
+.cc__avatar--3 {
+  margin-left: -12rpx;
+  background: #cfe6ff;
+}
+.cc__hint {
+  font-size: 22rpx;
+  color: #666;
+  margin-left: 12rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.cc__btn {
+  display: flex;
+  align-items: baseline;
+  gap: 4rpx;
+  height: 56rpx;
+  line-height: 56rpx;
+  padding: 0 22rpx;
+  border-radius: 999rpx;
+  background: #0d0d0d;
+  color: #fff;
+  font-size: 24rpx;
+  flex-shrink: 0;
+}
+.cc__going {
+  font-size: 16rpx;
+  opacity: 0.85;
+}
+
+.tip {
+  text-align: center;
+  font-size: 24rpx;
+  color: #999;
+  padding: 48rpx 0;
+}

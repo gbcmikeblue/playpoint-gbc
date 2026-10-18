@@ -1,0 +1,8 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "privacy-modal": "/components/privacy-modal/index"
+  },
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark"
+}

@@ -1,0 +1,116 @@
+<view class="page">
+  <!-- 顶部：城市 + 搜索 -->
+  <view class="header" style="padding-top: {{statusBarHeight}}px;">
+    <view class="header__row" style="padding-right: {{headerRight}}px;">
+      <view class="header__city" bindtap="onCityTap">
+        <text>{{cityName}}</text>
+        <view class="caret"></view>
+      </view>
+      <view class="header__search" bindtap="onSearchTap">
+        <text class="header__search-icon">🔍</text>
+        <text class="header__search-ph">搜索活动、场地、俱乐部</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="body" style="padding-top: {{statusBarHeight + 44}}px;">
+    <!-- 运营双卡 -->
+    <view class="promo" wx:if="{{banners.length}}">
+      <view
+        class="promo__big"
+        wx:if="{{banners[0]}}"
+        data-id="{{banners[0].jumpUrl}}"
+        bindtap="onActivityTap"
+      >
+        <image class="promo__img" src="{{banners[0].imageUrl}}" mode="aspectFill" />
+        <view class="promo__mask">
+          <text class="promo__title">{{banners[0].title}}</text>
+          <text class="promo__sub">{{banners[0].subtitle}}</text>
+        </view>
+      </view>
+      <view class="promo__small" wx:if="{{banners[1]}}">
+        <image class="promo__img" src="{{banners[1].imageUrl}}" mode="aspectFill" />
+        <view class="promo__mask promo__mask--vertical">
+          <text class="promo__title promo__title--sm">{{banners[1].title}}</text>
+          <text class="promo__sub">{{banners[1].subtitle}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 分类（两行） -->
+    <view class="cats" wx:if="{{categories.length}}">
+      <view
+        wx:for="{{categories}}"
+        wx:key="id"
+        class="cat {{item.selected ? 'is-active' : ''}}"
+        data-id="{{item.id}}"
+        bindtap="onCategoryTap"
+      >
+        <text wx:if="{{item.emoji}}" class="cat__emoji">{{item.emoji}}</text>
+        <text>{{item.name}}</text>
+      </view>
+    </view>
+
+    <!-- 引导条 -->
+    <view class="guide">
+      <view class="guide__left">
+        <view class="guide__ip">🏃</view>
+        <text class="guide__text">{{guide.text}}</text>
+      </view>
+      <view class="guide__actions">
+        <view class="guide__act" bindtap="onSortTap">⇅ 排序</view>
+        <view class="guide__act" bindtap="onFilterTap">⚙ 筛选</view>
+      </view>
+    </view>
+
+    <!-- 广告位 -->
+    <view class="ad" wx:if="{{ad}}">
+      <view class="ad__info">
+        <view class="ad__brand">{{ad.brand}}</view>
+        <view class="ad__title">{{ad.title}}</view>
+      </view>
+      <image class="ad__img" src="{{ad.imageUrl}}" mode="aspectFill" />
+      <view class="ad__cta">{{ad.ctaText}} ›</view>
+    </view>
+
+    <!-- 活动列表 -->
+    <view class="list">
+      <view
+        wx:for="{{list}}"
+        wx:key="id"
+        class="card"
+        data-id="{{item.id}}"
+        bindtap="onActivityTap"
+        hover-class="card--hover"
+      >
+        <image class="card__cover" src="{{item.coverUrl}}" mode="aspectFill" lazy-load />
+        <view class="card__body">
+          <view class="card__date">
+            <text class="card__d">{{item.dateText}}</text>
+            <text wx:if="{{item.isToday}}" class="card__today">今天</text>
+            <text class="card__t">{{item.timeText}}</text>
+          </view>
+          <view class="card__title ellipsis-2">{{item.title}}</view>
+          <view class="card__loc ellipsis">
+            <text class="card__pin">◎</text>
+            {{item.poiName}}
+          </view>
+          <view class="card__price" wx:if="{{item.priceText}}">{{item.priceText}}</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 状态 -->
+    <view wx:if="{{loading}}" class="tip">加载中…</view>
+    <view wx:elif="{{error}}" class="tip" bindtap="onRetry">加载失败，点击重试</view>
+    <view wx:elif="{{!list.length}}" class="tip">附近还没有活动，换个分类看看</view>
+    <view wx:elif="{{!hasMore}}" class="tip tip--muted">— 已经到底啦 —</view>
+  </view>
+
+  <privacy-modal
+    visible="{{privacyVisible}}"
+    version="{{agreementVersion}}"
+    bind:agree="onPrivacyAgree"
+    bind:disagree="onPrivacyDisagree"
+  />
+</view>
