@@ -48,3 +48,24 @@
 - 挑战赛的 `joined` / 进度恒为未参加（打卡闭环在 M3）。
 
 切到真实后端（本机联调）时：关掉「我的 → Mock 接口数据」，后端跑在 `localhost:3000`，开发者工具勾选「不校验合法域名」即可。
+
+## 6. 本地 appid 不提交（skip-worktree）
+
+`miniprogram/project.config.json` 里的 `appid` 每台机器可能不同（测试号 / 自己的小程序），但文件本身又要入库，处理方式是给它打 skip-worktree 标记：
+
+```bash
+# 改成自己的 appid 后，让 git 忽略这个文件的本地改动
+git update-index --skip-worktree miniprogram/project.config.json
+
+# 确认（S 开头即已标记）
+git ls-files -v miniprogram/project.config.json
+```
+
+注意：
+
+- 标记后 `git add -A`、`git commit` 都不会带上本地 appid，`git status` 也是干净的；
+- **改了该文件其它字段想提交时**（`setting`、`libVersion` 等），先 `git update-index --no-skip-worktree` 取消标记，提交完再加回来，否则改动会一起被忽略；
+- `git pull` 若远端也改了这个文件，会提示覆盖/冲突：先取消标记 → `git checkout -- <file>` 取远端版本 → 改回自己的 appid → 重新加标记；
+- 新克隆的机器没有这个标记，需要各自执行一次；
+- 不要用 `git add -f`，那会强行把本地 appid 提交上去。
+

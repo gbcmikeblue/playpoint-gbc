@@ -73,6 +73,10 @@ playpoint-gbc/
 3. 编译即可体验：首页 → 活动详情 → 报名 → 模拟支付 → 电子票
 4. 手机上看：工具栏 **预览** → 扫码；图片走外链，需在「详情 → 本地设置」勾选**不校验合法域名**
 
+> **本地 AppID 不提交**：把 `miniprogram/project.config.json` 改成自己的 AppID 后，执行
+> `git update-index --skip-worktree miniprogram/project.config.json`，此文件的本机改动就不会被提交。
+> 细节（如何取消标记、pull 冲突怎么处理）见 [真机调试与 Mock](data/doc/03-frontend/02-真机调试与Mock.md) 第 6 节。
+
 Mock 的开关、覆盖接口与数据说明见 [真机调试与 Mock](data/doc/03-frontend/02-真机调试与Mock.md)。
 
 ### 2. 连真实后端
